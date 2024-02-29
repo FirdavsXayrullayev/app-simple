@@ -22,4 +22,16 @@ public class ClientProductResources {
     public ResponseDto<ProductDto> getProduct(@RequestParam String id) {
         return productService.getProductByID(id);
     }
+    @PostMapping("add-new-product")
+    public ResponseDto<ProductDto> addNewProduct(@RequestBody ProductDto productDto){
+        return productService.addNewProduct(productDto);
+    }
+    @PatchMapping("update")
+    public ResponseDto<ProductDto> update(@RequestBody ProductDto productDto){
+        return productService.update(productDto);
+    }
+    @DeleteMapping("delete-product")
+    public ResponseDto<ProductDto> deleteById(@RequestParam Integer id){
+        return productService.deleteById(id);
+    }
 }

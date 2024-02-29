@@ -33,8 +33,8 @@ public class ProductResources {
         return productService.update(productDto);
     }
     @PreAuthorize("hasAnyAuthority('DELETE')")
-    @DeleteMapping("delete-product")
-    public ResponseDto<ProductDto> deleteById(@RequestParam Integer id){
+    @DeleteMapping("delete-product/{id}")
+    public ResponseDto<ProductDto> deleteById(@PathVariable Integer id){
         return productService.deleteById(id);
     }
 }

@@ -12,9 +12,4 @@ public class ClientApiApplication {
 		SpringApplication.run(ClientApiApplication.class, args);
 	}
 
-	@Bean
-	public RestTemplate getRestTemplate() {
-		return new RestTemplate();
-	}
-
 }

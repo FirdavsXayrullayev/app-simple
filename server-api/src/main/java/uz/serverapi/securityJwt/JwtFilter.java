@@ -28,7 +28,6 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String aut = request.getHeader("Authorization");
-        System.out.println(aut);
         if (aut != null && aut.startsWith("Bearer ")){
             String token = aut.substring(7);
             if (jwtService.expired(token)){

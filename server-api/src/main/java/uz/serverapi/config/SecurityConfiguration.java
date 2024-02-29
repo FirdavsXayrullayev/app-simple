@@ -31,7 +31,7 @@ import uz.serverapi.servise.UserService;
 import uz.serverapi.servise.impl.UserServiceImpl;
 
 @Configuration
-//@EnableMethodSecurity
+@EnableMethodSecurity
 @SecurityScheme(name = "Authorization",
                 in = SecuritySchemeIn.HEADER,
                 type = SecuritySchemeType.APIKEY)
