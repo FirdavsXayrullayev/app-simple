@@ -1,7 +1,7 @@
 package uz.serverapi.servise.impl;
 
+import com.google.gson.Gson;
 import com.itextpdf.text.*;
-import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -11,24 +11,28 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import uz.serverapi.dto.ProductDto;
 import uz.serverapi.dto.ResponseDto;
 import uz.serverapi.model.Product;
+import uz.serverapi.model.ProductDtoSample;
 import uz.serverapi.repository.ProductRepository;
+import uz.serverapi.repository.ProductRepositorySample;
 import uz.serverapi.servise.FileService;
 
 import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
 public class FileServiceImpl implements FileService {
     private final ProductRepository productRepository;
+    private final ProductRepositorySample productRepositorySample;
+    private final Gson gson;
     @Override
     public ResponseDto<String> exelCreate(){
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -132,6 +136,27 @@ public class FileServiceImpl implements FileService {
                 .success(true)
                 .build();
     }
+
+    @Override
+    public ResponseDto<String> postProducts(List<ProductDtoSample> productDtoList) {
+        System.out.println(productDtoList);
+//        ExecutorService executorService = Executors.newFixedThreadPool(10);
+//        executorService.execute(() -> {
+//            for (int i = 0; i < 10000; i++) {
+//                productRepositorySample.save(productDtoList.get(i));
+//            }
+//        });
+//
+//        executorService.shutdown();
+
+         return ResponseDto.<String>builder()
+                .code(0)
+                .info("OK")
+                .data("File is save")
+                .success(true)
+                .build();
+    }
+
     public static String filePath(String folder,String ext){
         LocalDate localDate = LocalDate.now();
         String path = localDate.format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));

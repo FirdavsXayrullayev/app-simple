@@ -1,5 +1,6 @@
 package uz.clientapi.rest;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
@@ -13,8 +14,9 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("product")
 @RequiredArgsConstructor
+@SecurityRequirement(name = "Authorization")
 public class ClientProductResources {
     private final ClientProductService productService;
 

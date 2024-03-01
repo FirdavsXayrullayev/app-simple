@@ -28,23 +28,32 @@ public class JwtFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String aut = request.getHeader("Authorization");
-        if (aut != null && aut.startsWith("Bearer ")){
-            String token = aut.substring(7);
-            if (jwtService.expired(token)){
-                response.getWriter().println(gson.toJson(ResponseDto.builder()
-                        .code(-2)
-                        .info("Token is expired!")
-                        .build()));
-                response.setContentType("application/json");
-                response.setStatus(400);
-            }else {
-                UserDto userDto = jwtService.getSubject(token);
-                System.out.println(userDto.getAuthorities());
+//        if (aut == null) {
+//            response.getWriter().println(gson.toJson(ResponseDto.builder()
+//                    .code(-2)
+//                    .info("Token is not exists!")
+//                    .build()));
+//            response.setContentType("application/json");
+////            response.setStatus(400);
+//        } else {
+            if (aut != null && aut.startsWith("Bearer ")) {
+                String token = aut.substring(7);
+                if (jwtService.expired(token)) {
+                    response.getWriter().println(gson.toJson(ResponseDto.builder()
+                            .code(-2)
+                            .info("Token is expired!")
+                            .build()));
+                    response.setContentType("application/json");
+                    response.setStatus(400);
+                } else {
+                    UserDto userDto = jwtService.getSubject(token);
+                    System.out.println(userDto.getAuthorities());
 
-                UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDto, null, userDto.getAuthorities());
-                SecurityContextHolder.getContext().setAuthentication(passwordAuthenticationToken);
+                    UsernamePasswordAuthenticationToken passwordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDto, null, userDto.getAuthorities());
+                    SecurityContextHolder.getContext().setAuthentication(passwordAuthenticationToken);
+                }
             }
+            filterChain.doFilter(request, response);
         }
-        filterChain.doFilter(request, response);
-    }
+//    }
 }

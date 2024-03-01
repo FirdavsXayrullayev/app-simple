@@ -83,7 +83,13 @@
 			<version>5.10.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!--		<dependency>-->
+        <dependency>
+            <groupId>uz</groupId>
+            <artifactId>shared-libs</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <!--		<dependency>-->
 		<!--			<groupId>com.itextpdf</groupId>-->
 		<!--			<artifactId>itextpdf</artifactId>-->
 		<!--		</dependency>-->

@@ -20,13 +20,17 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class ClientProductServiceImpl extends OncePerRequestFilter implements ClientProductService {
+public class ClientProductServiceImpl implements ClientProductService {
     private final RestTemplate restTemplate;
     public final HttpHeaders headers;
     public static String token;
     @Override
     public ResponseDto<ProductDto> getProductByID(String id) {
         HttpEntity <String> entity = new HttpEntity<>(headers);
+        if (token != null) {
+            headers.set("Authorization", token);
+        }
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         return restTemplate.exchange("http://localhost:8000/product/get-by-id/" + id, HttpMethod.GET, entity, ResponseDto.class).getBody();
 
     }
@@ -34,6 +38,10 @@ public class ClientProductServiceImpl extends OncePerRequestFilter implements Cl
     @Override
     public ResponseDto<ProductDto> addNewProduct(ProductDto productDto) {
         HttpEntity<ProductDto> entity = new HttpEntity<>(productDto, headers);
+        if (token != null) {
+            headers.set("Authorization", token);
+        }
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         return restTemplate.exchange("http://localhost:8000/product/add-new-product", HttpMethod.POST, entity, ResponseDto.class).getBody();
     }
 
@@ -41,7 +49,10 @@ public class ClientProductServiceImpl extends OncePerRequestFilter implements Cl
     public ResponseDto<ProductDto> update(ProductDto productDto) {
         HttpEntity<ProductDto> entity = new HttpEntity<>(productDto, headers);
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();
-
+        if (token != null) {
+            headers.set("Authorization", token);
+        }
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         restTemplate.setRequestFactory(requestFactory);
         return restTemplate.exchange("http://localhost:8000/product/update" , HttpMethod.PATCH, entity, ResponseDto.class).getBody();
     }
@@ -49,14 +60,10 @@ public class ClientProductServiceImpl extends OncePerRequestFilter implements Cl
     @Override
     public ResponseDto<ProductDto> deleteById(Integer id) {
         HttpEntity<String> entity = new HttpEntity<>(headers);
-        return restTemplate.exchange("http://localhost:8000/product/delete-product/" + id, HttpMethod.DELETE, entity, ResponseDto.class).getBody();
-    }
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        token = request.getHeader("Authorization");
+        if (token != null) {
+            headers.set("Authorization", token);
+        }
         headers.setAccept(List.of(MediaType.APPLICATION_JSON));
-        headers.set("Authorization", token);
-        filterChain.doFilter(request, response);
+        return restTemplate.exchange("http://localhost:8000/product/delete-product/" + id, HttpMethod.DELETE, entity, ResponseDto.class).getBody();
     }
 }

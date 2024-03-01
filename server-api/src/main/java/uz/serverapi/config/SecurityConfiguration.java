@@ -71,6 +71,17 @@ public class SecurityConfiguration {
 
         return source;
     }
+    public AuthenticationEntryPoint entryPoint(){
+        return ((req, res, ex) -> {
+            res.getWriter().println(gson.toJson(ResponseDto.builder()
+                    .code(-2)
+                    .info("Token is not valid " + ex.getMessage() +
+                            (ex.getCause() != null ? ex.getCause().getMessage() : ""))
+                    .build()));
+            res.setContentType("application/json");
+            res.setStatus(200);
+        });
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -91,6 +102,7 @@ public class SecurityConfiguration {
 
 
                 })
+                .exceptionHandling(e-> e.authenticationEntryPoint(entryPoint()))
                 .csrf(AbstractHttpConfigurer::disable)
 //                .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
