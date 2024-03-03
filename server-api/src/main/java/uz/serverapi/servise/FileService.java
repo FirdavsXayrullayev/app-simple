@@ -2,6 +2,7 @@ package uz.serverapi.servise;
 
 import com.itextpdf.text.DocumentException;
 import uz.serverapi.dto.ProductDto;
+import uz.serverapi.dto.ProductSampleList;
 import uz.serverapi.dto.ResponseDto;
 import uz.serverapi.model.ProductDtoSample;
 
@@ -14,5 +15,5 @@ public interface FileService {
 
     ResponseDto<String> pdfGeneration() throws DocumentException, FileNotFoundException;
 
-    ResponseDto<String> postProducts(List<ProductDtoSample> productDtoList);
+    ResponseDto<String> postProducts(List<ProductDtoSample> productSampleList);
 }

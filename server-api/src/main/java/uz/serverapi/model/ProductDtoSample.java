@@ -16,8 +16,8 @@ import lombok.Setter;
 @Entity
 public class ProductDtoSample {
     @Id
-    @GeneratedValue(generator = "productIdSeq")
-    @SequenceGenerator(name = "productIdSeq", sequenceName = "product_id_seq")
+//    @GeneratedValue(generator = "productSampleIdSeq")
+//    @SequenceGenerator(name = "productSampleIdSeq", sequenceName = "product_sample_id_seq")
     private Integer id;
     private String name;
     private Integer price;

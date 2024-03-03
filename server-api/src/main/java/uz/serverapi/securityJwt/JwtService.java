@@ -39,7 +39,7 @@ public class JwtService {
         return Jwts.parser()
                 .setSigningKey(secretKey)
                 .build()
-                .parseClaimsJws(token)
+                .parseSignedClaims(token)
                 .getBody();
     }
     public boolean expired(String token){

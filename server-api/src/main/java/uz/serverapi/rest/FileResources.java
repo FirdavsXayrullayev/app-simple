@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.serverapi.dto.ProductDto;
+import uz.serverapi.dto.ProductSampleList;
 import uz.serverapi.dto.ResponseDto;
 import uz.serverapi.model.ProductDtoSample;
 import uz.serverapi.repository.ProductRepository;
@@ -34,8 +35,7 @@ public class FileResources {
     }
     @PostMapping("post-products")
     @PreAuthorize("hasAnyAuthority('UPDATE')")
-    public ResponseDto<String> postProducts(@RequestBody List<ProductDtoSample> productDtoList){
-        System.out.println("afffffffffffffffffff");
-        return fileService.postProducts(productDtoList);
+    public ResponseDto<String> postProducts(@RequestBody List<ProductDtoSample> productDtoSamples){
+        return fileService.postProducts(productDtoSamples);
     }
 }

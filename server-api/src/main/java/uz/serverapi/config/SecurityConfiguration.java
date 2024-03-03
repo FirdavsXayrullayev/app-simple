@@ -93,7 +93,7 @@ public class SecurityConfiguration {
                             .permitAll()
                             .requestMatchers("/swagger-ui/**","/v3/api-docs/**", "/swagger-ui.html")
                             .permitAll()
-//                            .requestMatchers("/product/**")
+//                            .requestMatchers(HttpMethod.POST, "/file/**")
 //                            .permitAll()
 //                            .requestMatchers(HttpMethod.POST,"/user/login")
 //                            .hasAuthority("user")

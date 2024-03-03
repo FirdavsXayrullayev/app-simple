@@ -11,11 +11,14 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
+import uz.serverapi.dto.ProductDto;
+import uz.serverapi.dto.ProductSampleList;
 import uz.serverapi.dto.ResponseDto;
 import uz.serverapi.model.Product;
 import uz.serverapi.model.ProductDtoSample;
 import uz.serverapi.repository.ProductRepository;
 import uz.serverapi.repository.ProductRepositorySample;
+import uz.serverapi.repository.impl.ProductRepositoryImpl;
 import uz.serverapi.servise.FileService;
 
 import java.io.*;
@@ -33,6 +36,7 @@ public class FileServiceImpl implements FileService {
     private final ProductRepository productRepository;
     private final ProductRepositorySample productRepositorySample;
     private final Gson gson;
+    private final ProductRepositoryImpl productRepositoryImpl;
     @Override
     public ResponseDto<String> exelCreate(){
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -138,17 +142,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public ResponseDto<String> postProducts(List<ProductDtoSample> productDtoList) {
-        System.out.println(productDtoList);
-//        ExecutorService executorService = Executors.newFixedThreadPool(10);
-//        executorService.execute(() -> {
-//            for (int i = 0; i < 10000; i++) {
-//                productRepositorySample.save(productDtoList.get(i));
+    public ResponseDto<String> postProducts(List<ProductDtoSample> productSampleList) {
+        System.out.println(productSampleList.size());
+        long s = System.currentTimeMillis();
+        ExecutorService executorService = Executors.newFixedThreadPool(10);
+//        productRepositoryImpl.save(productSampleList);
+        executorService.execute(() -> {
+//            for (int i = 0; i <= 99999; i++) {
+                productRepositorySample.saveAll(productSampleList);
 //            }
-//        });
-//
-//        executorService.shutdown();
-
+            System.out.println(System.currentTimeMillis() - s);
+        });
+        executorService.shutdown();
          return ResponseDto.<String>builder()
                 .code(0)
                 .info("OK")
