@@ -11,8 +11,6 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
-import uz.serverapi.dto.ProductDto;
-import uz.serverapi.dto.ProductSampleList;
 import uz.serverapi.dto.ResponseDto;
 import uz.serverapi.model.Product;
 import uz.serverapi.model.ProductDtoSample;
