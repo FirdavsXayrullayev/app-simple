@@ -28,7 +28,7 @@ class ServerApiApplicationTests {
 				.name("olma")
 				.price(10000)
 				.amount(21)
-				.description("meva");
+				.description("meva").build();
 		ResponseDto<ProductDto> responseDto = productService.addNewProduct(productDto);
 
 		assertTrue(responseDto.isSuccess());
@@ -43,13 +43,13 @@ class ServerApiApplicationTests {
 	@DisplayName("Test for update check id is null")
 	void checkForUpdateProductIdIsNull(){
 		ProductDto productDto = ProductDto.builder()
-				.amount(11);
+				.amount(11).build();
 
 		ResponseDto<ProductDto> responseDto = productService.update(productDto);
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), -2, "Must return -2 because id is null"),
-				() -> assertFalse(responseDto.getSuccess(), "Must be false because id is null"),
+				() -> assertFalse(responseDto.isSuccess(), "Must be false because id is null"),
 				() -> assertEquals(responseDto.getInfo(), "Validation Error")
 		);
 	}
@@ -62,30 +62,30 @@ class ServerApiApplicationTests {
 				.name("olma")
 				.price(10000)
 				.amount(21)
-				.description("meva");
+				.description("meva").build();
 
 		ResponseDto<ProductDto> responseDto = productService.update(productDto);
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), -1, "Must return -1 because product is not exist in db with id"),
-				() -> assertFalse(responseDto.getSuccess(), "Must be false because product is not exist in db with id"),
+				() -> assertFalse(responseDto.isSuccess(), "Must be false because product is not exist in db with id"),
 				() -> assertEquals(responseDto.getInfo(), "Not found")
 		);
 	}
 
 	@Test
 	@DisplayName("Test for update check product is update in db")
-	void checkForUpdateProductIdIsNull(){
+	void checkForUpdateProductId(){
 		ProductDto productDto = ProductDto.builder()
 				.id(1)
 				.name("olma")
-				.price(10000);
+				.price(10000).build();
 
 		ResponseDto<ProductDto> responseDto = productService.update(productDto);
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), 0, "Must return 0 because product save in db successfully"),
-				() -> assertTrue(responseDto.getSuccess(), "Must be true because product save in db successfully"),
+				() -> assertTrue(responseDto.isSuccess(), "Must be true because product save in db successfully"),
 				() -> assertEquals(responseDto.getInfo(), "OK")
 		);
 	}
@@ -99,7 +99,7 @@ class ServerApiApplicationTests {
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), -2, "Must return -2 because product id is null"),
-				() -> assertFalse(responseDto.getSuccess(), "Must be false because product id is null"),
+				() -> assertFalse(responseDto.isSuccess(), "Must be false because product id is null"),
 				() -> assertEquals(responseDto.getInfo(), "Validation Error")
 		);
 	}
@@ -111,7 +111,7 @@ class ServerApiApplicationTests {
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), -1, "Must return -1 because product is not exist with id"),
-				() -> assertFalse(responseDto.getSuccess(), "Must be false because product is not exist with id"),
+				() -> assertFalse(responseDto.isSuccess(), "Must be false because product is not exist with id"),
 				() -> assertEquals(responseDto.getInfo(), "Not found")
 		);
 	}
@@ -123,7 +123,7 @@ class ServerApiApplicationTests {
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), 0, "Must return 0 because product is exist with id"),
-				() -> assertTrue(responseDto.getSuccess(), "Must be true because product is exist with id"),
+				() -> assertTrue(responseDto.isSuccess(), "Must be true because product is exist with id"),
 				() -> assertEquals(responseDto.getInfo(), "OK"),
 				() -> assertNotNull(responseDto.getData())
 		);
@@ -138,7 +138,7 @@ class ServerApiApplicationTests {
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), -1, "Must return -1 because is not exist with id"),
-				() -> assertFalse(responseDto.getSuccess(), "Must be false because is not exist with id"),
+				() -> assertFalse(responseDto.isSuccess(), "Must be false because is not exist with id"),
 				() -> assertEquals(responseDto.getInfo(), "Not found")
 		);
 	}
@@ -150,7 +150,7 @@ class ServerApiApplicationTests {
 
 		assertAll(
 				() -> assertEquals(responseDto.getCode(), 0, "Must return 0 because id is exist"),
-				() -> assertTrue(responseDto.getSuccess(), "Must be true because id is exist"),
+				() -> assertTrue(responseDto.isSuccess(), "Must be true because id is exist"),
 				() -> assertEquals(responseDto.getInfo(), "OK"),
 				() -> assertNotNull(responseDto.getData())
 		);
